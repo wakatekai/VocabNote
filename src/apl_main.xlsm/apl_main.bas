@@ -27,6 +27,7 @@ Sub apl_main()
     Dim longNumCorrectAnswers As Long
     Dim i As Long
     Dim j As Long
+    Dim blDuplicate As Boolean
     
     
     '＜タイトル表示＞
@@ -50,16 +51,14 @@ Sub apl_main()
         '＜誤答データ取得＞
         '1語ずつ取得
         i = 0
-        For i = 0 To (WLONG_WORD_NUM - 1)
+        While i <= WLONG_WORD_NUM
             stQestionData.strWrongWord(i) = GetWrongWord(enGenre)
-            '重複確認(うまく動かないはず)
-            'For j = 0 To i Step 1
-            '    If (strWrongWord(j) <> stQestionData.strAnswerWord) Or (strWrongWord(i) <> strWrongWord(j)) Then
-            '        i = i + 1
-            '        Exit For
-            '    End If
-            'Next j
-        Next i
+            '重複確認
+            blDuplicate = CheckDuplicates(stQestionData.strWrongWord)
+            If blDuplicate = False Then
+                i = i + 1
+            End If
+        Wend
         
         
         '＜問題表示・結果判定＞
@@ -77,3 +76,18 @@ Sub apl_main()
     Call DispResult(longNumQuestions, longNumCorrectAnswers)
     
 End Sub
+
+Function CheckDuplicates(arr() As String) As Boolean
+    Dim i As Long, j As Long
+    
+    For i = LBound(arr) To UBound(arr)
+        For j = i + 1 To UBound(arr)
+            If arr(i) <> "" And arr(j) <> "" And arr(i) = arr(j) Then
+                CheckDuplicates = True
+                Exit Function
+            End If
+        Next j
+    Next i
+    
+    CheckDuplicates = False
+End Function
