@@ -9,13 +9,10 @@ Type QuestionData
  strWrongWord(WLONG_WORD_NUM) As String
 End Type
 
-' あいうえお かきくけこ
 
 'UI固有の変数
-Dim ToF As Long           '正誤判定フラグ
-Dim UiblEndFlag As Long   '問題開始判定フラグ
-
-
+Dim ToF As Long                 '正誤判定フラグ
+Public UiblEndFlag As Boolean   '問題開始判定フラグ
 
 Public Ans As Integer    '正誤判定
 'ロードする関数を作成する
@@ -79,9 +76,9 @@ Function Func1(ByVal Ans As String, ByVal SlctNm As String) As String
     End If
 End Function
 
-Function DispTitle()
-'    Dim UiblEndFlag             '問題開始判定フラグ
-    UserForm3.Show              'タイトル画面の呼び出し
+Function DispTitle() As Boolean
+    UiblEndFlag = True
+    Title.Show              'タイトル画面の呼び出し
     DispTitle = UiblEndFlag
 End Function
 
