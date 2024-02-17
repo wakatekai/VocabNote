@@ -1,6 +1,8 @@
 Attribute VB_Name = "DB_stub"
 Option Explicit
 
+Dim Number As Long
+
 Public Sub GetQuestion(enGenre As enumGenre, longDBNumber As Long, strQestionWord As String, strAnswerWord As String)
     Dim Genre As Long
     Genre = enGenre
@@ -11,19 +13,21 @@ End Sub
 
 Public Function GetWrongWord(enGenre As enumGenre)
     Dim Genre As Long
-    
+
+    Number = Number + 1
+
     Genre = enGenre
-    GetWrongWord = "Wrong"
+    GetWrongWord = "Wrong" & Number
     
 End Function
 
 Public Sub SetAnswer(longDBNumber As Long, blResult As Boolean)
     Dim Genre As Long
     Dim DBNumber As Long
-    Dim Result As Boolean
+    Dim result As Boolean
     
     DBNumber = longDBNumber
-    Result = blResult
+    result = blResult
     
 End Sub
 
