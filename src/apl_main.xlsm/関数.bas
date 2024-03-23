@@ -1,3 +1,4 @@
+Attribute VB_Name = "関数"
 '*******************************************************
 '関数ファイル
 '*******************************************************
@@ -10,6 +11,7 @@ Public Const GRNRECELL As String = "ジャンル"
 Public Const ENGLISHCELL As String = "英語"
 Public Const JAPANESECELL As String = "日本語"
 Public Const QUESTION_COUNT_CELL As String = "出題回数"
+Public Const CORRECTNUMCELL As String = "正解回数"
 Public Const DBSheet As String = "DB"
 
 Enum enumGenre
@@ -143,3 +145,25 @@ Function GetGenreName(enGenre As enumGenre) As String
     
     GetGenreName = japaneseWord
 End Function
+
+'正誤通知 (回答の正誤情報でDBを更新)
+Private Sub SetAnswer(DBNumber As Long, blResult As Boolean)
+    'インクリメントの上限ガードは可読性を優先して無し
+    Dim FindIDRange As Range
+    
+    Set FindIDRange = Range(Range(IDCELL).Cells, Range(IDCELL).End(xlDown).Cells).Find(CStr(DBNumber), LookAt:=xlWhole)
+    If FindIDRange Is Nothing Then
+        MsgBox "指定された識別IDは存在しません｡"
+        Exit Sub
+    Else
+        '出題回数インクリメント
+        Cells(FindIDRange.Row, Range(QUESTION_COUNT_CELL).Column).Value = Cells(FindIDRange.Row, Range(QUESTION_COUNT_CELL).Column).Value + 1
+        
+        If blResult Then
+            '正解回数インクリメント
+            Cells(FindIDRange.Row, Range(CORRECTNUMCELL).Column).Value = Cells(FindIDRange.Row, Range(CORRECTNUMCELL).Column).Value + 1
+        End If
+    End If
+
+End Sub
+
