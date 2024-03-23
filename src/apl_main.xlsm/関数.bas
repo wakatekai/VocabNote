@@ -19,6 +19,17 @@ Type QuestionData
         
 End Type
 
+Enum enumGenre
+    FRUIT = 0
+    ALL
+End Enum
+
+Type QestionData
+    longDBNumber As Long
+    strQestionWord As String
+    strAnswerWord As String
+End Type
+
 ''初期化←不要。毎回正答率とかゼロになるから
 ''Sub Initialize()
 '
@@ -49,10 +60,16 @@ Function GetWordNum(genre As String) As Long
     
 End Function
 
-'問題のデータを返す
-Function GetQuestion() As QuestionData
+'問題のデータを返す（ジャンルから、識別ID、問題の単語、答えの単語を返す）
+Function GetQuestion(genre As String) As QuestionData
+    Dim genrecount As Long
+    
+    'そのジャンルの数をカウント
     
     
+    'ランダムにいくつ目かを生成
+    
+    'その数の問題データを返す
     
 End Function
 
