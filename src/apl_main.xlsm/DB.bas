@@ -98,7 +98,7 @@ Function GetQuestion(genre As enumGenre) As QuestionData
 End Function
 
 'DBにある問題データの中からランダムで日本語を取得
-Function GetWordRandomly(enGenre As enumGenre) As String
+Function GetWrongWord(enGenre As enumGenre) As String
     Dim sheetDB As Worksheet
     Dim randomRow As Long
     Dim selectedGenre As String
@@ -117,30 +117,14 @@ Function GetWordRandomly(enGenre As enumGenre) As String
     genreCol = sheetDB.Range(GRNRECELL).Column
     selectedGenre = sheetDB.Cells(randomRow, genreCol)
     
-    If selectedGenre = GetGenreName(enGenre) Or enGenre = ALL Then
+    If selectedGenre = enGenre Or enGenre = ALL Then
         Dim japaneseCol As Long
         japaneseCol = sheetDB.Range(JAPANESECELL).Column
-        GetWordRandomly = sheetDB.Cells(randomRow, japaneseCol)
+        GetWrongWord = sheetDB.Cells(randomRow, japaneseCol)
     Else
         ' ジャンルが一致しない場合は再帰的に関数を呼び出す
-        GetWordRandomly = GetWordRandomly(enGenre)
+        GetWrongWord = GetWrongWord(enGenre)
     End If
-End Function
-
-' ジャンル番号に対応する名前を取得
-Function GetGenreName(enGenre As enumGenre) As String
-    Dim japaneseWord As String
-    
-    Select Case enGenre
-        Case FRUIT
-            japaneseWord = "果物"
-        Case VEHICLE
-            japaneseWord = "乗り物"
-        Case ALL
-            japaneseWord = "全部"
-    End Select
-    
-    GetGenreName = japaneseWord
 End Function
 
 '正誤通知 (回答の正誤情報でDBを更新)
