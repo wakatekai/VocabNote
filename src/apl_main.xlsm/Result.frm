@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} Result 
    Caption         =   "結果"
-   ClientHeight    =   5250
+   ClientHeight    =   5894
    ClientLeft      =   91
    ClientTop       =   406
-   ClientWidth     =   6146
+   ClientWidth     =   7231
    OleObjectBlob   =   "Result.frx":0000
    StartUpPosition =   1  'オーナー フォームの中央
 End

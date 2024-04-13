@@ -62,14 +62,7 @@ End Sub
 
 
 Private Sub CommandButton6_Click()  'タイトル画面へボタン
-'If TOTALCOUNT = 3 Then
-'    Unload Answer
-'    Title.Show
-'End If
-'If TOTALCOUNT = 0 Or 1 Then
-'    MsgBox "タイトル画面へ戻りますがよろしいですか？"
-'    TOTALCOUNT = 3
-'End If
+'未使用
 End Sub
 
 Private Sub Label1_Click()
