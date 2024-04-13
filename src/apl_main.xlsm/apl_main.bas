@@ -11,11 +11,6 @@ Type QestionData
     strWrongWord(WLONG_WORD_NUM) As String
 End Type
 
-'ƒWƒƒƒ“ƒ‹
-Enum enumGenre
-    FRUIT = 0
-    ALL
-End Enum
 
 Sub apl_main()
     Dim stQestionData As QestionData
