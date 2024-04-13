@@ -1,4 +1,4 @@
-Attribute VB_Name = "関数"
+Attribute VB_Name = "DB"
 '*******************************************************
 '関数ファイル
 '*******************************************************
@@ -16,6 +16,7 @@ Public Const DBSheet As String = "DB"
 
 Enum enumGenre
     FRUIT = 0
+    VEHICLE
     ALL
 End Enum
 
@@ -26,13 +27,18 @@ Type QestionData
 End Type
 
 '引数のジャンルの数を返す
-Function GetWordNum(genre As String) As Long
+Function GetWordNum(genre As enumGenre) As Long
     Dim wordcount As Long
     Dim TargetColums As Long
     
     With ThisWorkbook.Worksheets(DBSheet)
         TargetColums = .Range(GRNRECELL).Column
-        wordcount = WorksheetFunction.CountIf(.Columns(TargetColums), genre)
+        If genre = ALL Then
+            'タイトル行があるので-1
+            wordcount = .Range("A1").CurrentRegion.Rows.Count - 1
+        Else
+            wordcount = WorksheetFunction.CountIf(.Columns(TargetColums), genre)
+        End If
     End With
     
     GetWordNum = wordcount
@@ -40,7 +46,7 @@ Function GetWordNum(genre As String) As Long
 End Function
 
 '問題のデータを返す（ジャンルから、識別ID、問題の単語、答えの単語を返す）
-Function GetQuestion(genre As String) As QuestionData
+Function GetQuestion(genre As enumGenre) As QuestionData
     Dim genrecount As Long
     Dim QuestionIDsub As Long  '引数のジャンルの上から何番目の問題データを取得するか
     Dim IDColumns As Long
@@ -65,21 +71,30 @@ Function GetQuestion(genre As String) As QuestionData
          genreColums = .Range(GRNRECELL).Column 'ジャンル列
          QuestionWordColumns = .Range(ENGLISHCELL).Column '英語列
          QuestionAnswerColumns = .Range(JAPANESECELL).Column '日本語列
-         Do While QuestionIDcount <= QuestionIDsub
-            If .Cells(QuestionIDcountRow, genreColums) = genre Then
+         If genre = ALL Then
+            Do While QuestionIDcount <= QuestionIDsub
                 QuestionID = .Cells(QuestionIDcountRow, IDColumns)
                 QuestionWord = .Cells(QuestionIDcountRow, QuestionWordColumns)
                 QuestionAnswer = .Cells(QuestionIDcountRow, QuestionAnswerColumns)
                 QuestionIDcount = QuestionIDcount + 1
-            End If
-            QuestionIDcountRow = QuestionIDcountRow + 1
-         Loop
+                QuestionIDcountRow = QuestionIDcountRow + 1
+            Loop
+         Else
+            Do While QuestionIDcount <= QuestionIDsub
+                If .Cells(QuestionIDcountRow, genreColums) = genre Then
+                    QuestionID = .Cells(QuestionIDcountRow, IDColumns)
+                    QuestionWord = .Cells(QuestionIDcountRow, QuestionWordColumns)
+                    QuestionAnswer = .Cells(QuestionIDcountRow, QuestionAnswerColumns)
+                    QuestionIDcount = QuestionIDcount + 1
+                End If
+                QuestionIDcountRow = QuestionIDcountRow + 1
+            Loop
+        End If
     End With
     
     GetQuestion.longDBNumber = QuestionID
     GetQuestion.strQestionWord = QuestionWord
     GetQuestion.strAnswerWord = QuestionAnswer
-
 End Function
 
 'DBにある問題データの中からランダムで日本語を取得
