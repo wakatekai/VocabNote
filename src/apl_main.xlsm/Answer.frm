@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} Answer 
    Caption         =   "回答"
    ClientHeight    =   6328
-   ClientLeft      =   91
-   ClientTop       =   406
-   ClientWidth     =   11312
+   ClientLeft      =   90
+   ClientTop       =   405
+   ClientWidth     =   11310
    OleObjectBlob   =   "Answer.frx":0000
    StartUpPosition =   1  'オーナー フォームの中央
 End
@@ -13,6 +13,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Dim TOTALCOUNT
 Dim SlctNm As Integer
 

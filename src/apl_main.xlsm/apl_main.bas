@@ -1,3 +1,8 @@
+Attribute VB_Name = "apl_main"
+'*******************************************************
+'関数ファイル
+'*******************************************************
+
 Option Explicit
 
 Const WLONG_WORD_NUM As Long = 3
@@ -43,6 +48,8 @@ Sub apl_main()
         For longNumQuestions = 0 To QUESTION_NUM Step 1
             '＜問題データ取得＞
             '参照渡しにしてコールした関数側で変数を変更してもらうイメージ　構造体変数を丸ごと行き来させるよりはよさそう
+            '4/13 DB側で独自の構造体を定義し、戻り値に設定しているため、データが行き来せず、コンパイルエラー
+            '構造体変数を戻り値にするとどのデータが設定されたかわからないため後処理で設定されていないデータを参照しないための処置が必要
             Call GetQuestion(enGenre, stQestionData.longDBNumber, stQestionData.strQestionWord, stQestionData.strAnswerWord)
             
             '＜誤答データ取得＞
