@@ -2,6 +2,7 @@ Option Explicit
 
 Const WLONG_WORD_NUM As Long = 3
 Const QUESTION_NUM As Long = 5
+Const CHOICIES_NUM As Long = 4
 
 '問題データ
 Type QestionData
@@ -22,11 +23,10 @@ Sub apl_main()
     Dim i As Long
     Dim j As Long
     Dim blDuplicate As Boolean
-    Dim strChoices(4) As String
+    Dim strChoices(CHOICIES_NUM) As String
     
     
     Do
-    
         '＜タイトル表示＞
         blEndFlag = DispTitle()
         '＜終了判定＞
