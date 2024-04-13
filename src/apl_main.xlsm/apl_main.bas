@@ -1,7 +1,6 @@
-Attribute VB_Name = "apl_main"
 Option Explicit
 
-Const WLONG_WORD_NUM As Long = 3 - 1
+Const WLONG_WORD_NUM As Long = 3
 Const QUESTION_NUM As Long = 5
 
 '問題データ
@@ -19,7 +18,7 @@ Enum enumGenre
 End Enum
 
 Sub apl_main()
-    Dim stQestionData As QestionData 'ユーザーインターフェース側でグローバル変数にしないと使用できないようなら変更（そうすると引数が軒並み不要になり、入出力の意味が薄れる…？）
+    Dim stQestionData As QestionData
     Dim blEndFlag As Boolean
     Dim enGenre As enumGenre
     Dim blResult As Boolean
@@ -28,6 +27,8 @@ Sub apl_main()
     Dim i As Long
     Dim j As Long
     Dim blDuplicate As Boolean
+    Dim strChoices(4) As String
+    
     
     Do
     
@@ -51,12 +52,14 @@ Sub apl_main()
             
             '＜誤答データ取得＞
             '1語ずつ取得
+            strChoices(0) = stQestionData.strAnswerWord '重複確認用に選択肢配列先頭に答えを入れておく
             i = 0
             While i <= WLONG_WORD_NUM
-                stQestionData.strWrongWord(i) = GetWrongWord(enGenre)
+                strChoices(i + 1) = GetWrongWord(enGenre)   '選択肢配列に誤答を入れておく
                 '重複確認
-                blDuplicate = CheckDuplicates(stQestionData.strWrongWord)
+                blDuplicate = CheckDuplicates(strChoices)
                 If blDuplicate = False Then
+                    stQestionData.strWrongWord(i) = strChoices(i + 1)  '他の選択肢と被らなかったため誤答として登録
                     i = i + 1
                 End If
             Wend
