@@ -25,22 +25,6 @@ Type QestionData
     strAnswerWord As String
 End Type
 
-''初期化←不要。毎回正答率とかゼロになるから
-''Sub Initialize()
-'
-'    '以降の処理で使う情報を取得
-'    'ジャンル列の列数初期化
-'    genrecolumn = Sheet2.Range(GRNRECELL).Column
-'    '出題回数列の初期化
-'    QuestionCountColumn = Sheet2.Range(QUESTION_COUNT_CELL).Column
-'
-'    '一度出した問題を再度出さないようにするために出題回数を初期化
-'    '出題回数列を初期化
-'    Range(Cells(2, QuestionCountColumn), Cells(2, QuestionCountColumn).End(xlDown)).Value = 0
-'
-''End Sub
-
-
 '引数のジャンルの数を返す
 Function GetWordNum(genre As String) As Long
     Dim wordcount As Long
@@ -56,10 +40,9 @@ Function GetWordNum(genre As String) As Long
 End Function
 
 '問題のデータを返す（ジャンルから、識別ID、問題の単語、答えの単語を返す）
-'動作未確認
 Function GetQuestion(genre As String) As QuestionData
     Dim genrecount As Long
-    Dim QuestionIDsub As Long
+    Dim QuestionIDsub As Long  '引数のジャンルの上から何番目の問題データを取得するか
     Dim IDColumns As Long
     Dim genreColums As Long
     Dim QuestionWordColumns As Long
@@ -69,13 +52,12 @@ Function GetQuestion(genre As String) As QuestionData
     Dim QuestionWord As String
     Dim QuestionIDcount As Long
     Dim QuestionIDcountRow As Long
-    Dim TargetColums As Long
     
     'そのジャンルの数をカウント
     genrecount = GetWordNum(genre)
     
     'ランダムにいくつ目かを生成し、その問題データを返す
-    QuestionIDsub = Int(genrecoun * Rnd + 1)
+    QuestionIDsub = Int(genrecount * Rnd + 1)
     QuestionIDcount = 1
     QuestionIDcountRow = 2 ' 1行目はタイトル行なので2行目からカウント
     With ThisWorkbook.Worksheets(DBSheet)
@@ -84,7 +66,7 @@ Function GetQuestion(genre As String) As QuestionData
          QuestionWordColumns = .Range(ENGLISHCELL).Column '英語列
          QuestionAnswerColumns = .Range(JAPANESECELL).Column '日本語列
          Do While QuestionIDcount <= QuestionIDsub
-            If .Cells(QuestionIDcountRow, TargetColums) = genre Then
+            If .Cells(QuestionIDcountRow, genreColums) = genre Then
                 QuestionID = .Cells(QuestionIDcountRow, IDColumns)
                 QuestionWord = .Cells(QuestionIDcountRow, QuestionWordColumns)
                 QuestionAnswer = .Cells(QuestionIDcountRow, QuestionAnswerColumns)
@@ -97,7 +79,7 @@ Function GetQuestion(genre As String) As QuestionData
     GetQuestion.longDBNumber = QuestionID
     GetQuestion.strQestionWord = QuestionWord
     GetQuestion.strAnswerWord = QuestionAnswer
-    
+
 End Function
 
 'DBにある問題データの中からランダムで日本語を取得
