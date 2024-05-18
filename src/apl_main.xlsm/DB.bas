@@ -20,11 +20,11 @@ Enum enumGenre
     ALL
 End Enum
 
-Type QestionData
-    longDBNumber As Long
-    strQestionWord As String
-    strAnswerWord As String
-End Type
+'Type QestionData
+'    longDBNumber As Long
+'    strQestionWord As String
+'    strAnswerWord As String
+'End Type
 
 '引数のジャンルの数を返す
 Function GetWordNum(genre As enumGenre) As Long
@@ -46,16 +46,12 @@ Function GetWordNum(genre As enumGenre) As Long
 End Function
 
 '問題のデータを返す（ジャンルから、識別ID、問題の単語、答えの単語を返す）
-Function GetQuestion(genre As enumGenre) As QuestionData
-    Dim genrecount As Long
+Function GetQuestion(genre As enumGenre, QuestionID As Long, QuestionWord As String, QuestionAnswer As String)
     Dim QuestionIDsub As Long  '引数のジャンルの上から何番目の問題データを取得するか
     Dim IDColumns As Long
     Dim genreColums As Long
     Dim QuestionWordColumns As Long
     Dim QuestionAnswerColumns As Long
-    Dim QuestionID As Long
-    Dim QuestionAnswer As String
-    Dim QuestionWord As String
     Dim QuestionIDcount As Long
     Dim QuestionIDcountRow As Long
     
@@ -92,9 +88,9 @@ Function GetQuestion(genre As enumGenre) As QuestionData
         End If
     End With
     
-    GetQuestion.longDBNumber = QuestionID
-    GetQuestion.strQestionWord = QuestionWord
-    GetQuestion.strAnswerWord = QuestionAnswer
+'    GetQuestion.longDBNumber = QuestionID
+'    GetQuestion.strQestionWord = QuestionWord
+'    GetQuestion.strAnswerWord = QuestionAnswer
 End Function
 
 'DBにある問題データの中からランダムで日本語を取得
@@ -128,7 +124,7 @@ Function GetWrongWord(enGenre As enumGenre) As String
 End Function
 
 '正誤通知 (回答の正誤情報でDBを更新)
-Private Sub SetAnswer(DBNumber As Long, blResult As Boolean)
+Sub SetAnswer(DBNumber As Long, blResult As Boolean)
     'インクリメントの上限ガードは可読性を優先して無し
     Dim FindIDRange As Range
     
