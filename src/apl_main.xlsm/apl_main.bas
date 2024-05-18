@@ -6,8 +6,8 @@ Attribute VB_Name = "apl_main"
 Option Explicit
 
 Const WLONG_WORD_NUM As Long = 3
-Const QUESTION_NUM As Long = 5
-Const CHOICIES_NUM As Long = 4
+Const QUESTION_NUM As Long = 4
+Const CHOICIES_NUM As Long = 3
 
 '問題データ
 Type QestionData
@@ -28,7 +28,7 @@ Sub apl_main()
     Dim i As Long
     Dim j As Long
     Dim blDuplicate As Boolean
-    Dim strChoices(CHOICIES_NUM) As String
+    Dim strChoices() As String
     
     
     Do
@@ -54,9 +54,10 @@ Sub apl_main()
             
             '＜誤答データ取得＞
             '1語ずつ取得
+            ReDim strChoices(CHOICIES_NUM)
             strChoices(0) = stQestionData.strAnswerWord '重複確認用に選択肢配列先頭に答えを入れておく
             i = 0
-            While i <= WLONG_WORD_NUM
+            While i < WLONG_WORD_NUM
                 strChoices(i + 1) = GetWrongWord(enGenre)   '選択肢配列に誤答を入れておく
                 '重複確認
                 blDuplicate = CheckDuplicates(strChoices)
